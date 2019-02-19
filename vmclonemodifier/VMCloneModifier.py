@@ -62,9 +62,11 @@ vrdp_base_port = dom.find('testbed-setup/vm-set/vrdp-baseport').text
 print "VRDP Base Port: " + vrdp_base_port
 
 vbox = virtualbox.VirtualBox()
-for x in num_clones:
-    last_digit = str(x+1)
-    vm = vbox.find_machine(vm_select+base_output_name)
+x = 0
+while x < int(num_clones):
+    x += 1
+    last_digit = str(x)
+    vm = vbox.find_machine(vm_select+base_output_name+last_digit)
     print vm.name
 
 
