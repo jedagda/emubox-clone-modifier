@@ -1,6 +1,6 @@
 import os
 import xml.etree.ElementTree as ET
-#import virtualbox
+import virtualbox
 
 # Emubox's filepath for Debian-based Linux ditros
 workshop_configs_path = "/root/emubox/workshop-creator/bin/workshop_creator_gui_resources/workshop_configs/"
@@ -40,15 +40,17 @@ vms = dom.findall('testbed-setup/vm-set/vm')
 vm_list = {}
 vm_num = 0
 
-
 for x in vms:
     vm_num += 1
     vm_name = x.find('name').text
     vm_list[vm_num] = vm_name
     print vm_num, vm_list[vm_num]
 
+vm_num_select = int(raw_input("Select the number associated to the virtual machine that you wish to modify\n\n"))
+vm_select = vm_list[vm_num_select]
+
 num_clones = dom.find('testbed-setup/vm-set/num-clones').text
-print "Number of Clones " + num_clones
+print "Number of Clones: " + num_clones
 
 ip_address = dom.find('testbed-setup/network-config/ip-address').text
 print "Ip-Address: " + ip_address
@@ -58,6 +60,15 @@ print "Base output name: " + base_output_name
 
 vrdp_base_port = dom.find('testbed-setup/vm-set/vrdp-baseport').text
 print "VRDP Base Port: " + vrdp_base_port
+
+vbox = virtualbox.VirtualBox()
+for x in num_clones:
+    last_digit = str(x+1)
+    vm = vbox.find_machine(vm_select+base_output_name)
+    print vm.name
+
+
+
 
 
 
